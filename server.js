@@ -8,6 +8,7 @@ const MongoClient = require("mongodb").MongoClient;
 MongoClient.connect.useNewUrlParser =  true;
 
 const Task = require("./Task");
+const Recurring = require("./Recurring");
 
 const port = process.env.PORT || 3000;
 
@@ -60,7 +61,7 @@ app.post("/task-blocks", (request, response) => {
     request.body.concurrent = false;
     request.body.remainingTime = request.body.requiredTime;
 
-    // let submittedTask = new Task(request.body);
+    let submittedTask = new Task(request.body);
 
     db.collection("blocks").save(submittedTask, (err, results) => {
         if(err) return console.log(err);
@@ -75,7 +76,9 @@ app.post("/recurring-blocks", (request, response) => {
     request.body.fixed = false;
     request.body.concurrent = false;
     
-    db.collection("blocks").save(request.body, (err, results) => {
+    let submittedRecurring = new Recurring(request.body);
+
+    db.collection("blocks").save(submittedRecurring, (err, results) => {
         if(err) return console.log(err);  
         response.redirect("/block-creator");
     })
@@ -85,6 +88,20 @@ app.get("/block-editor", (request, response) => {
     response.render("block-editor.ejs")
     let event = db.collection("events").find();
     console.log(event)
+})
+
+app.get("/retrieve-blocks", async (request, response) => {
+    
+    let validEvents = await db.collection("blocks").find({type : "Event", date : "2018-10-10"}).toArray();
+    let validTasks = await db.collection("blocks").find({type : "Task"}).toArray();
+    let validRecurring = await db.collection("blocks").find({type:"Recurring"}).toArray();
+
+    let dynamicBlocks = [...validTasks, ...validRecurring].sort((a,b) => {
+        return b.priority - a.priority;
+    })
+    console.log(dynamicBlocks);
+    
+    response.redirect("/block-creator")
 })
 
 

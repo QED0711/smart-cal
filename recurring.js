@@ -45,22 +45,23 @@ class Recurring {
 
 
 
-let params = {
-    "title": "Recurring Block",
-    "requiredTime": "0:45",
-    "priority": "7",
-    "repeatType": "Daily",
-    "repeatValue": "M W F",
-    "scheduleAfter": "00:00",
-    "scheduleBefore": "10:00",
-    "type": "Recurring",
-    "open": true,
-    "fixed": false,
-    "concurrent": false
-}
+// let params = {
+//     "title": "Recurring Block",
+//     "requiredTime": "0:45",
+//     "priority": "7",
+//     "repeatType": "Daily",
+//     "repeatValue": "M W F",
+//     "scheduleAfter": "00:00",
+//     "scheduleBefore": "10:00",
+//     "type": "Recurring",
+//     "open": true,
+//     "fixed": false,
+//     "concurrent": false
+// }
 
-let myRecurring = new Recurring(params);
+// let myRecurring = new Recurring(params);
+// console.log(myRecurring)    
 
-// setTimeout(() => {
-    console.log(myRecurring)    
-// }, 1000);
+
+
+module.exports = Recurring;
