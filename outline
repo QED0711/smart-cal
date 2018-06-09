@@ -1,0 +1,60 @@
+Active Time:
+- User definied active scheduable period
+- e.g. 5:00 - 21:00
+
+maxWorkTime:
+- the longest period of time a user can work before a break
+
+break:
+- min max break period
+
+Event:
+- A hard scheduled calednar block. 
+- It will not auto reschedule
+- It can be manually rescheduled or moved
+
+new Event{
+    type: 'event',
+    title: title,
+    timeStart: TIME,
+    timeEnd: TIME,
+    location: LOCATION,
+    totalTime: timeEnd - timeStart,
+    busy: true||false
+}
+
+Task:
+- A soft scheduled calendar block
+- User defines a due date/time
+- auto schedules up to that date/time
+- prompts user if task was finished by end of day 
+- split: if the execution of the task can be split between multiple sessions.  
+
+new Task{
+    title: title,
+    type: 'task',
+    durationType: 'etimate' || 'exact',
+    duration: userDefined hh:mm format,
+    split: true || false
+    minWorkPeriod: the minimum amount of time to spend on the task at a time,
+    maxWorkPeriod: The maximum amount of time to spend on the task in one session (defaults to task.duration)
+    location: LOCATION
+}
+
+Practice:
+- A regularly reoccuring calendar slot
+- may be on a daily/weekly/monthly/hours per basis
+- scheduled once, app automates the schedule 
+
+new Practice{
+    title: title,
+    type: 'practice',
+    duration: DURATION,
+    repeatType: 'regular' = daily, weekly, monthy, etc; 'completion' = hours/day, week, month, etc.,
+    repeatPeriod: if Practice.reapeatType = 'regular' => 'hours' where hours = every x hours schedule a new practice,
+
+}
+
+Travel:
+- based on current location adjusts schedule for travel time to any new locations
+- travel time is a soft calendar block

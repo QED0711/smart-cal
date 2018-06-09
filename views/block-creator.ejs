@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="add calendar blocks" content="width=device-width, initial-scale=1.0">
+    <title>Smart-Cal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="block-title">
+            <h3>EVENT:</h3>
+        </div>
+    </div>
+    <!-- <h1><%= title %></h1>
+    <h3><%= subtitle %></h3> -->
+    
+    <div class="container block event-block">
+
+        <form action="/event-blocks" method="POST">
+
+            <div class="form-row">
+                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="Title" name="title" required>
+                </div>
+
+                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <label for="event-date">Date</label>
+                    <input type="date" class="form-control" id="event-date" name="date" required>
+                </div>
+
+                <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <label for="event-start-time">Start Time</label>
+                    <input type="time" class="form-control" id="event-start-time" name="startTime" required>
+                </div>
+
+                <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <label for="event-end-time">End Time</label>
+                    <input type="time" class="form-control" id="event-end-time" name="endTime" required>
+                </div>
+
+                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <label for="event-repeat">repeat</label>
+                    <select class="form-control" id="event-repeat" name="repeats">
+                        <option>Does Not Repeat</option>
+                        <option>Repeats</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <label for="event-repeat-type">Repeat Type</label>
+                    <select class="form-control" id="event-repeat-type" name="repeatType">
+                        <option>None</option>
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                        <option>Yearly</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <label for="event-repeat-times">Number of Repeats</label>
+                    <input type="number" class="form-control" id="event-repeat-times" min="0" value="0" name="repeatPeriod">
+                </div>
+            </div>
+            
+            
+            <button type="submit" class="btn btn-primary">Add Event</button>
+        </form>            
+    </div>
+
+    <div class="container">
+        <div class="block-title">
+            <h3>TASK:</h3>
+        </div>
+    </div>
+
+    <div class="container block task-block">
+        <form action="task-blocks" method="POST">
+            <div class="form-row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="task-title">Title</label>
+                    <input type="text" class="form-control" id="task-title" placeholder="Title" name="title" required>
+                    <small class="form-text text-muted">Required</small>
+                </div>  
+
+                <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <label for="task-date">Due Date</label>
+                    <input type="date" class="form-control" id="task-date" name="dueDate" required>
+                    <small class="form-text text-muted">Required</small>
+                </div>  
+
+                <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <label for="task-priority">Priority</label>
+                    <input type="number" class="form-control" id="task-priority" name="priority" value="5" required>
+                    <small class="form-text text-muted">1 = low, 10 = high</small>
+                </div>  
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="task-requiredTime">Estimated Time to Complete</label>
+                    <input type="number" class="form-control" id="task-requiredTime" name="requiredTime" step=0.01 required >
+                    <small class="form-text text-muted">Required (How many hours you think the task will take)</small>
+                </div>  
+
+                <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <label for="task-minimumTime">Minimum Block Time</label>
+                    <input type="number" class="form-control" id="task-minimumTime" name="sessionTime" value="1" minimum="0.25" step=0.01>
+                    <small class="form-text text-muted">(in hours)</small>
+                </div>  
+
+                <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <label for="task-maximumTime">Maximum Block Time</label>
+                    <input type="number" class="form-control" id="task-maximumTime" name="sessionTime" value="1" minimum="0.25" step=0.01>
+                    <small class="form-text text-muted">(in hours)</small>
+                </div>  
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="task-scheduleAfter">Schedule After</label>
+                    <input type="time" class="form-control" id="task-scheduleAfter" name="scheduleBefore" value="00:00">
+                </div>  
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="task-scheduleBefore">Schedule Before</label>
+                    <input type="time" class="form-control" id="task-scheduleBefore" name="scheduleAfter" value="23:59">
+                </div>  
+                
+
+
+            </div>  
+            <button type="submit" class="btn btn-primary">Add Task</button>
+        </form>
+    </div>
+    
+    <div class="container">
+        <div class="block-title">
+            <h3>RECURRING:</h3>
+        </div>
+    </div>
+
+    <div class="container block recurring-block">
+        <form action="recurring-blocks" method="POST">
+            <div class="form-row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="title">Event Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="Title" name="title" required>
+                </div>  
+
+                <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <label for="task-requiredTime">Estimated Time to Complete</label>
+                    <input type="number" class="form-control" id="recurring-requiredTime" name="requiredTime" step=0.01 value="1.0" required>
+                    <small class="form-text text-muted">Required (How many hours you think the recurring will take)</small>
+                </div>  
+
+                <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <label for="recurring-priority">Priority</label>
+                    <input type="number" class="form-control" id="recurring-priority" name="priority" minimum="1" maximum="10" value ="5" required>
+                    <small class="form-text text-muted">1 = low, 10 = high</small>
+                </div>  
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="recurring-repeat-type">Repeat Type</label>
+                    <select class="form-control" id="recurring-repeat-type" name="repeatType" required>
+                        <option>None</option>
+                        <option>Daily</option>
+                        <option>Monthly</option>
+                        <option>Periodic</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="recurring-repeatValue">Repeat Value</label>
+                    <input type="text" class="form-control" id="recurring-repeatValue" name="repeatValue" >
+                    <small class="form-text text-muted">Daily: Su M T W Th F Sa</small>
+                    <small class="form-text text-muted">Monthly: 1, 2, 3, etc.</small>
+                    <small class="form-text text-muted">Periodic: 1, 2, 3, etc.</small>
+                </div>  
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="recurring-scheduleAfter">Schedule After</label>
+                    <input type="time" class="form-control" id="recurring-scheduleAfter" name="scheduleAfter" value="00:00">
+                </div> 
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label for="recurring-scheduleBefore">Schedule Before</label>
+                    <input type="time" class="form-control" id="recurring-scheduleBefore" name="scheduleBefore" value="23:59">
+                </div>  
+
+            </div>  
+            <button type="submit" class="btn btn-primary">Add Recurring</button>
+        </form>
+    </div>
+
+</body>
+</html>

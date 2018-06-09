@@ -1,0 +1,28 @@
+.page-title{
+    margin-top: 50px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: grey;
+    text-align: center;
+    /* color: blue; */
+    /* padding-left: 100px; */
+}
+
+.block{
+    border-radius: 8px;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    border: solid 2px;
+}
+
+.event-block{
+    background-color: #8FBC94;
+}
+
+.task-block{
+    background-color: #8FBC94;
+}
+
+.recurring-block{
+    background-color: #8FBC94;
+}
