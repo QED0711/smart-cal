@@ -7,8 +7,9 @@ app.set('view engine', 'ejs');
 const MongoClient = require("mongodb").MongoClient;
 MongoClient.connect.useNewUrlParser =  true;
 
-const Task = require("./Task");
-const Recurring = require("./Recurring");
+const Event = require("./Blocks/Event");
+const Task = require("./Blocks/Task");
+const Recurring = require("./Blocks/Recurring");
 
 const port = process.env.PORT || 3000;
 
@@ -46,11 +47,20 @@ app.post("/event-blocks", (request, response) => {
     request.body.priority = null;
     request.body.concurrent = false;
 
-    db.collection('blocks').save(request.body, (err, results) => {
-        if(err) return console.log(err);
-        // console.log('saved to database');
-        response.redirect("/block-creator");
-    })
+    let submittedEvent = new Event(request.body)
+    for(let i = 0; i <= submittedEvent.repeatPeriod; i++){
+        if(i > 0){
+            let expandedDate = submittedEvent.repeatPeriod.split("-");
+            parseInt(expandedDate[0]) += 1;
+            submittedEvent.repeatPeriod = expandedDate.join("-");
+        }
+        db.collection('blocks').save(submittedEvent, (err, results) => {
+            if(err) return console.log(err);
+            // console.log('saved to database');
+          
+        })
+    }
+    response.redirect("/block-creator");
 });
 
 app.post("/task-blocks", (request, response) => {
