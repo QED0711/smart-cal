@@ -1,5 +1,4 @@
 
-
 class Recurring {
     constructor(params){
         this.type = "Recurring";

@@ -1,8 +1,11 @@
 
 df = {
     mdy(date){
-        date = date.split("-");
-        return `${date[1]}-${date[2]}-${date[0]}`
+        if(!/\d{1,2}-\d{1,2}-\d\d\d\d/.test(date)){
+            date = date.split("-");
+            return `${date[1]}-${date[2]}-${date[0]}`
+        }
+        return date;
     },
     
     isLeapYear(date){

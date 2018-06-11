@@ -37,40 +37,33 @@ app.get("/block-creator", (request, response) => {
     response.render("block-creator.ejs", ({title: "Hello There!", subtitle: "This is the add page"}));
 })
 
+app.get("/schedule", async (request, response) => {
+    db.collection("blocks").find({}).toArray((err, results) => {
+       console.log(results[0]);
+        response.render("schedule.ejs", ({blocks : results}));
+    });
+    
+    
+})
 
+app.post("/event-blocks", async (request, response) => {
 
-app.post("/event-blocks", (request, response) => {
-    // sone new comment to test nodemon
-    request.body.type = 'Event';
-    request.body.open = true;
-    request.body.fixed = true;
-    request.body.priority = null;
-    request.body.concurrent = false;
-
-    let submittedEvent = new Event(request.body)
-    for(let i = 0; i <= submittedEvent.repeatPeriod; i++){
-        if(i > 0){
-            let expandedDate = submittedEvent.repeatPeriod.split("-");
-            parseInt(expandedDate[0]) += 1;
-            submittedEvent.repeatPeriod = expandedDate.join("-");
-        }
-        db.collection('blocks').save(submittedEvent, (err, results) => {
+    let submittedEvent = new Event(request.body);
+    let repeatPeriod = submittedEvent.repeatPeriod;
+    for(let i = 0; i < repeatPeriod; i++){
+        await db.collection('blocks').save(submittedEvent, (err, results) => {
             if(err) return console.log(err);
-            // console.log('saved to database');
-          
         })
+        submittedEvent = submittedEvent.duplicate();
     }
+    
+    
+    
     response.redirect("/block-creator");
 });
 
 app.post("/task-blocks", (request, response) => {
-    request.body.type = "Task";
-    request.body.requiredTime = floatToHours(request.body.requiredTime);
-    request.body.open = true;
-    request.body.fixed = false;
-    request.body.concurrent = false;
-    request.body.remainingTime = request.body.requiredTime;
-
+    
     let submittedTask = new Task(request.body);
 
     db.collection("blocks").save(submittedTask, (err, results) => {
@@ -80,12 +73,7 @@ app.post("/task-blocks", (request, response) => {
 })
 
 app.post("/recurring-blocks", (request, response) => {
-    request.body.type = "Recurring";
-    request.body.requiredTime = floatToHours(request.body.requiredTime);
-    request.body.open = true;
-    request.body.fixed = false;
-    request.body.concurrent = false;
-    
+        
     let submittedRecurring = new Recurring(request.body);
 
     db.collection("blocks").save(submittedRecurring, (err, results) => {
@@ -102,14 +90,19 @@ app.get("/block-editor", (request, response) => {
 
 app.get("/retrieve-blocks", async (request, response) => {
     
-    let validEvents = await db.collection("blocks").find({type : "Event", date : "2018-10-10"}).toArray();
+    let currentDate = new Date();
+    let days = ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa']
+    let day = days[currentDate.getDay()];
+    currentDate = `${currentDate.getMonth()+1}-${currentDate.getDate()}-${currentDate.getFullYear()}`;
+
+    let validEvents = await db.collection("blocks").find({type : "Event", date : currentDate}).toArray();
     let validTasks = await db.collection("blocks").find({type : "Task"}).toArray();
     let validRecurring = await db.collection("blocks").find({type:"Recurring"}).toArray();
 
     let dynamicBlocks = [...validTasks, ...validRecurring].sort((a,b) => {
         return b.priority - a.priority;
     })
-    console.log(dynamicBlocks);
+    console.log(validEvents, dynamicBlocks);
     
     response.redirect("/block-creator")
 })

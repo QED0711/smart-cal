@@ -1,14 +1,5 @@
+const df = require("../DateFormat");
 
-
-function generateID(){
-    const characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-    let id = [];
-    for(let i = 0; i<=20; i++){
-        let randCharacter = Math.floor(Math.random() * characters.length);
-        id.push(characters[randCharacter]);
-    }
-    return id.join('');
-}
 
 const timeToFloat = (time) => {
     if(typeof time === "number") return time;
@@ -23,7 +14,7 @@ class Task{
         // this.id = generateID();
         // required 
         this.title = params.title;
-        this.dueDate = params.dueDate;
+        this.dueDate = df.mdy(params.dueDate);
         this.requiredTime = parseInt(params.requiredTime);
         this.sessionTime = params.sessionTime;
         
