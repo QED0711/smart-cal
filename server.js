@@ -10,6 +10,7 @@ MongoClient.connect.useNewUrlParser =  true;
 const Event = require("./Blocks/Event");
 const Task = require("./Blocks/Task");
 const Recurring = require("./Blocks/Recurring");
+const Schedule = require("./js/Schedule")
 
 const port = process.env.PORT || 3000;
 
@@ -97,17 +98,17 @@ app.get("/retrieve-blocks", async (request, response) => {
 
     let validEvents = await db.collection("blocks").find({type : "Event", date : currentDate}).toArray();
     let validTasks = await db.collection("blocks").find({type : "Task"}).toArray();
-    let validRecurring = await db.collection("blocks").find({type:"Recurring"}).toArray();
-
-    let dynamicBlocks = [...validTasks, ...validRecurring].sort((a,b) => {
-        return b.priority - a.priority;
-    })
-    console.log(validEvents, dynamicBlocks);
+    let validRecurring = await db.collection("blocks").find({type:"Recurring", repeatValue : day}).toArray();
     
+    let blocks = new Schedule([...validEvents, ...validTasks, ...validRecurring]);
+
+    sortedBlocks = blocks.sortedBlocks
+    console.log(sortedBlocks)
     response.redirect("/block-creator")
 })
 
-
+// what do to next:
+// adjust repeatValue entry for recurring blocks to be easily searchable in the database based on the repeatType 
 
 const floatToHours = (float) => {
     let hour = (Math.floor(float)).toString();
