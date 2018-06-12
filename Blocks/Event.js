@@ -34,6 +34,13 @@ class Event {
         }
         return new Event(duplicateEvent);
     }
+
+    startTimeToMinute(){
+        let splitTime = this.startTime.split(":");
+        let hour = parseInt(splitTime[0]);
+        let minute =  parseInt(splitTime[1]);
+        return ((hour * 60) + minute)
+    }
 }
 
 
