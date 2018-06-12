@@ -7,7 +7,7 @@ class Recurring {
         this.requiredTime = params.requiredTime;
         this.priority = parseInt(params.priority);
         this.repeatType = params.repeatType;
-        this.repeatValue = params.repeatValue;
+        this.repeatValue = (typeof params.repeatValue === "object") ? params.repeatValue : params.repeatValue.split(" ") 
         this.scheduleAfter = params.scheduleAfter;
         this.scheduleBefore = params.scheduleBefore;
 
